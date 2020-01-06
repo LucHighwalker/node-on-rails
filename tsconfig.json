@@ -3,7 +3,9 @@
     "target": "es6",
     "module": "commonjs",
     "outDir": "dist",
-    "sourceMap": false
+    "sourceMap": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true 
   },
   "files": [
     "./cli.ts",
