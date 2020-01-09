@@ -11,6 +11,7 @@
     "./cli.ts",
   ],
   "include": [
+    "boiler/templates/**/*.ts",
     "src/**/*.ts"
   ],
   "exclude": [
