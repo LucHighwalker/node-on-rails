@@ -1,9 +1,9 @@
-export default () => `import * as dotenv from 'dotenv';
+export default (defaultPort: number = 4200) => `import * as dotenv from 'dotenv';
 dotenv.config();
 
 import server from './server';
 
-const port = process.env.PORT || 4200;
+const port = process.env.PORT || ${defaultPort};
 
 server.listen(port, (error: Error) => {
   if (error) {

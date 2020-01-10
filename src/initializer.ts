@@ -2,11 +2,20 @@ import * as path from "path";
 import * as rmdir from "rimraf";
 import ncp from "ncp";
 
+import { writeFile } from "./helpers";
+
+import server from "../boiler/templates/src/server";
+import serverDef from "../boiler/templates/defaults/src/server";
+import index from "../boiler/templates/src/index";
+
 export default class Initializer {
   name: string;
   boilerPath: string;
+  templatesPath: string;
   tempPath: string;
   directory: string;
+
+  isJS: boolean;
 
   constructor(name: string, directory: string, isJS: boolean) {
     this.name = name;
@@ -17,7 +26,7 @@ export default class Initializer {
     this.tempPath = path.join(__dirname, isJS ? "../../_temp/" : "../_temp");
     this.directory = directory;
 
-    rmdir.default(this.tempPath, (err) => {
+    rmdir.default(this.tempPath, err => {
       if (err) throw err;
     });
   }
@@ -30,7 +39,7 @@ export default class Initializer {
     }
   }
 
-  async createBase() {
+  createBase(): Promise<void> {
     return new Promise((resolve, reject) => {
       ncp(`${this.boilerPath}config`, this.tempPath, (err: Error[]) => {
         if (err) {
@@ -39,6 +48,16 @@ export default class Initializer {
           resolve();
         }
       });
+    });
+  }
+
+  addServer(): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      await writeFile(
+        `${this.tempPath}/src/server.ts`,
+        server(serverDef.middleware, "")
+      );
+      await writeFile(`${this.tempPath}/src/index.ts`, index());
     });
   }
 }

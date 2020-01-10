@@ -5,10 +5,6 @@ import * as bodyParser from "body-parser";
 import * as cors from "cors";
 import * as expressSanitizer from 'express-sanitizer';
 
-import auth from "./auth/auth.controller";
-
-import Auth from "./auth/auth.routes";
-
 class Server {
   public server;
 
