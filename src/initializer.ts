@@ -17,9 +17,9 @@ export default class Initializer {
     this.tempPath = path.join(__dirname, isJS ? "../../_temp/" : "../_temp");
     this.directory = directory;
 
-    // rmdir.default(this.tempPath, (err) => {
-    //   if (err) throw err;
-    // });
+    rmdir.default(this.tempPath, (err) => {
+      if (err) throw err;
+    });
   }
 
   async initialize() {
