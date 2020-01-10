@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = () => `import * as dotenv from 'dotenv';
+exports.default = (defaultPort = 4200) => `import * as dotenv from 'dotenv';
 dotenv.config();
 
 import server from './server';
 
-const port = process.env.PORT || 4200;
+const port = process.env.PORT || ${defaultPort};
 
 server.listen(port, (error: Error) => {
   if (error) {

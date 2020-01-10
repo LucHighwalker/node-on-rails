@@ -2,7 +2,7 @@ import * as path from "path";
 import * as rmdir from "rimraf";
 import ncp from "ncp";
 
-import { writeFile } from "./helpers";
+import { writeFile, ensureDirExists } from "./helpers";
 
 import server from "../boiler/templates/src/server";
 import serverDef from "../boiler/templates/defaults/src/server";
@@ -34,6 +34,7 @@ export default class Initializer {
   async initialize() {
     try {
       await this.createBase();
+      await this.addServer();
     } catch (err) {
       throw err;
     }
@@ -53,8 +54,9 @@ export default class Initializer {
 
   addServer(): Promise<void> {
     return new Promise(async (resolve, reject) => {
+      ensureDirExists(path.join(this.tempPath, "src"));
       await writeFile(
-        `${this.tempPath}/src/server.ts`,
+        path.join(this.tempPath, "src/server.ts"),
         server(serverDef.middleware, "")
       );
       await writeFile(`${this.tempPath}/src/index.ts`, index());
